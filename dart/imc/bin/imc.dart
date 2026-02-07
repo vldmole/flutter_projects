@@ -1,5 +1,8 @@
-import 'package:imc/imc.dart' as imc;
+import 'package:imc/app.dart';
+
 
 void main(List<String> arguments) {
+
+  App().run();
   
 }

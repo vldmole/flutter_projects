@@ -2,7 +2,7 @@ import 'dart:io';
 
 String readLine(String message) {
 
-  stdout.write('\n$message: ');
+  stdout.write('\n$message');
   return stdin.readLineSync() ?? '';
 }
 
@@ -10,7 +10,7 @@ double readDouble(String message) {
 
   while(true){
     try {
-      stdout.write('\n$message: ');
+      stdout.write('\n$message');
       return double.parse(stdin.readLineSync() ?? 'NaN');
     }
     on Exception catch (_, e){
@@ -26,7 +26,7 @@ double readabsoluteDouble(String message) {
 
 bool readYesOrNot(String message) {
 
-  stdout.write('\n$message: ');
+  stdout.write('\n$message');
   return readChar('SsNn').toUpperCase() == 'S';
 }
 
