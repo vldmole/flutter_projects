@@ -16,7 +16,7 @@ class MyWidgetHomePage extends StatefulWidget {
 class _MyWidgetHomePageState extends State<MyWidgetHomePage> {
 
   final _olaText = Text(
-      "Olá", 
+      "Number", 
       textDirection: TextDirection.rtl, 
       textScaler: TextScaler.linear(2),
       style: GoogleFonts.abyssinicaSil(fontSize: 30),
@@ -34,14 +34,15 @@ class _MyWidgetHomePageState extends State<MyWidgetHomePage> {
     return Text(
       _generatedInt.toString(),
       textScaler: TextScaler.linear(5),
-      style: GoogleFonts.aladin(),
+      style: GoogleFonts.aladin(color: Colors.blueAccent),
+
     );
   }
 
   Center get _appBody => Center( 
         child: Container(
           height: 200,
-          width: 200,
+          width: 300,
           decoration: BoxDecoration(
             color: Colors.blue[100],
             borderRadius: BorderRadius.circular(10),
