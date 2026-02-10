@@ -1,5 +1,5 @@
-import 'package:app02/pages/home_page.dart';
-import 'package:app02/pages/login_page.dart';
+
+import 'package:app03/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 //stl tab
@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return const MaterialApp(
-      //home: MyWidgetHomePage()
       home: LoginPageWidget()
     );
   }

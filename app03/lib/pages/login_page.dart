@@ -32,24 +32,28 @@ class _LoginPageState extends State<LoginPageWidget> {
 
   Widget _buildBody(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // Fundo levemente cinza
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+      backgroundColor: const Color(0xFFF5F5F5),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              Spacer(flex:4),
               _buildBodyHeader(context),
-              const SizedBox(height: 40),
+              Spacer(flex:4),
               _buildEmailTextField(context),
-              const SizedBox(height: 16),
+              Spacer(flex:1),
               _buildPasswordTextField(context),
-              const SizedBox(height: 24),
+              Spacer(flex: 4),
               _buildLoginButton(context),
+              Spacer(flex:5),
+              _buildFooter(context),
+              Spacer(flex:2),
             ],
           ),
         ),
-      ),
+      )
     );
   }
 
@@ -59,7 +63,7 @@ class _LoginPageState extends State<LoginPageWidget> {
         const Icon(Icons.account_circle, size: 80, color: Colors.blueAccent),
         const SizedBox(height: 16),
         Text(
-          'Bem-vindo de volta!',
+          'Olá seja bem vindo!',
           style: GoogleFonts.poppins(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -137,9 +141,34 @@ class _LoginPageState extends State<LoginPageWidget> {
         ),
         child: Text(
           'ENTRAR',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600),
         ),
       ),
+    );
+  }
+
+  Widget _buildFooter(BuildContext context) {
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+        'Esqueci a senha',
+        style: GoogleFonts.poppins(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.amber,
+        ),
+        ),
+        Text(
+        'Criar conta',
+        style: GoogleFonts.poppins(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.green,
+        )),
+      ]
     );
   }
 
@@ -174,11 +203,14 @@ class _LoginPageState extends State<LoginPageWidget> {
     );
   }
 
+  
   @override
   void dispose() {
     _emailController.dispose(); 
     _passwordController.dispose();
     super.dispose(); 
   }
+  
+  
 }
 
