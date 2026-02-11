@@ -12,24 +12,27 @@ class ListInputDialog extends StatefulWidget {
   final String title;
   final List<FieldConfig> fields;
 
-  const ListInputDialog({
+  ListInputDialog({
     super.key, 
     required this.title,
     required this.fields,
-  });
+  }){
+    dev.log('constructor line 21');
+    fields.map((f)=> dev.log(f.toString()));
+  }
 
   @override
   State<ListInputDialog> createState() => _ListInputDialogState();
 
  // static int _countKey = 1;
 
-  static Future<String?> showInputDialog(
+  static Future<List<String?>?> showInputDialog(
     BuildContext context, 
     String title, 
     List<FieldConfig> fields
   ) async {
     
-    return showDialog<String>(
+    return showDialog<List<String?>?>(
         context: context,
         builder: (context) => ListInputDialog(
          // key:ValueKey('VarInputDialog_${_countKey++}'), 
@@ -49,20 +52,22 @@ class _ListInputDialogState extends State<ListInputDialog> {
   
     super.initState();
     dev.log('line 51');
-    widget.fields.map((field) => dev.log(field.toString()));
+    for (var field in widget.fields) {
+      dev.log(field.toString());
+    }
     _controllers = widget.fields.map((field) => TextEditingController()).toList();
     dev.log('line 53');
   }
 
   @override
   Widget build(BuildContext context) {
-    dev.log('line 53');
+    
     return AlertDialog(
   
       title: Text(widget.title),
       content: SizedBox(
         width: 250,
-        height: (50.0 * widget.fields.length),
+        height: (70.0 * widget.fields.length),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +79,10 @@ class _ListInputDialogState extends State<ListInputDialog> {
                 controller: _controllers[index],
                 autofocus: true,
                 obscureText: field.obscured,
-                decoration: InputDecoration(labelText: field.label, hintText: field.hint),
+                decoration: InputDecoration(
+                  labelText: field.label, 
+                  labelStyle: TextStyle(fontSize: 26), 
+                  hintText: field.hint),
               )).toList()
         ),
       ),
@@ -84,7 +92,10 @@ class _ListInputDialogState extends State<ListInputDialog> {
           child: const Text("Cancelar"),
         ),
         ElevatedButton(
-          onPressed: () => Navigator.pop(context, _controllers.map((c) => c.text).toList()),
+          onPressed: () => Navigator.pop<List<String>>(
+            context, 
+            _controllers.map((c) => c.text).toList(),
+          ),
           child: const Text("OK"),
         ),
       ]

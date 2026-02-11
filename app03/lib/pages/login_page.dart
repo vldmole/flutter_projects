@@ -212,11 +212,12 @@ class _LoginPageState extends State<LoginPageWidget> {
   Future<void> _signUp() async {
 
     List<FieldConfig> fields = [
-      (label:"Email", email:"email@company.com", obscured:false),
-      (label:"Password", email:'min 6 characters', obscured:true),
+      (label:"Email", hint:"email@company.com", obscured:false),
+      (label:"Password", hint:'min 6 characters', obscured:true),
     ].cast();
-    dev.log('line 218');
-    final String? result = await ListInputDialog.showInputDialog(
+   
+    fields.map((field) => dev.log(field.toString()));
+    final List<String?>? result = await ListInputDialog.showInputDialog(
       context,
       "Criar conta",
       fields
@@ -224,7 +225,10 @@ class _LoginPageState extends State<LoginPageWidget> {
 
     if (result != null && result.isNotEmpty) {
       
-      dev.log("O nome digitado foi: $result");
+      dev.log('line 228');
+      for (var r in result) {
+        dev.log(r.toString());
+      }
       setState(() {
         // _nome = resultado;
       });
