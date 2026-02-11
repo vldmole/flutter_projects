@@ -1,5 +1,7 @@
 
 import 'dart:developer' as dev;
+import 'package:app03/util/dialogs/list_input_dialog.dart';
+import 'package:app03/util/dialogs/input_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +16,7 @@ class _LoginPageState extends State<LoginPageWidget> {
   
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +128,7 @@ class _LoginPageState extends State<LoginPageWidget> {
   }
 
   Widget _buildLoginButton(BuildContext context) {
+
     return SizedBox(
       width: double.infinity,
       height: 55,
@@ -153,21 +156,26 @@ class _LoginPageState extends State<LoginPageWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-        'Esqueci a senha',
-        style: GoogleFonts.poppins(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.amber,
+        TextButton(
+          onPressed: _createNewPassword,
+          child: Text('Esqueci a senha',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.amber,
+            ),
+          ),
         ),
-        ),
-        Text(
-        'Criar conta',
-        style: GoogleFonts.poppins(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.green,
-        )),
+        TextButton(
+          onPressed: _signUp,
+          child: Text('Criar Conta',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+        )
       ]
     );
   }
@@ -181,6 +189,47 @@ class _LoginPageState extends State<LoginPageWidget> {
 
     _mostrarAlerta(context);
   }  
+
+
+  Future<void> _createNewPassword() async {
+
+      final String? result = await InputDialog.showInputDialog(
+            context,
+            "Esqueceu a Senha?",
+            "Nova Senha",
+            "min 6 caracteres"
+          );
+
+    if (result != null && result.isNotEmpty) {
+      
+      dev.log("O nome digitado foi: $result");
+      setState(() {
+        // _nome = resultado;
+      });
+    }
+  }
+
+  Future<void> _signUp() async {
+
+    List<FieldConfig> fields = [
+      (label:"Email", email:"email@company.com", obscured:false),
+      (label:"Password", email:'min 6 characters', obscured:true),
+    ].cast();
+    dev.log('line 218');
+    final String? result = await ListInputDialog.showInputDialog(
+      context,
+      "Criar conta",
+      fields
+    );
+
+    if (result != null && result.isNotEmpty) {
+      
+      dev.log("O nome digitado foi: $result");
+      setState(() {
+        // _nome = resultado;
+      });
+    }
+  }
 
   void _mostrarAlerta(BuildContext context) {
     showDialog(
