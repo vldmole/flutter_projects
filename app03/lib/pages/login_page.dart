@@ -1,5 +1,7 @@
 
 import 'dart:developer' as dev;
+import 'package:app03/components/email_textfield.dart';
+import 'package:app03/components/passoword_textfield.dart';
 import 'package:app03/util/dialogs/list_input_dialog.dart';
 import 'package:app03/util/dialogs/input_dialog.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,7 @@ class _LoginPageState extends State<LoginPageWidget> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,9 +46,9 @@ class _LoginPageState extends State<LoginPageWidget> {
               Spacer(flex:4),
               _buildBodyHeader(context),
               Spacer(flex:4),
-              _buildEmailTextField(context),
-              Spacer(flex:1),
-              _buildPasswordTextField(context),
+              _buildEmailTextField(),
+              Spacer(flex:4),
+              _buildPasswordTextField(),
               Spacer(flex: 4),
               _buildLoginButton(context),
               Spacer(flex:5),
@@ -76,54 +78,21 @@ class _LoginPageState extends State<LoginPageWidget> {
     );
   }
 
-  Widget _buildEmailTextField (BuildContext context){
-    return _buildTextField(
-      context: context,
+  Widget _buildEmailTextField (){
+    return EmailTextField(
       label: 'Email',
       hint: 'exemplo@email.com',
-      icon: Icons.email_outlined,
+      prefixIcon: Icons.email_outlined,
       controller: _emailController,
     );
   }
 
-  Widget _buildPasswordTextField(BuildContext context){
+  Widget _buildPasswordTextField() {
 
-    return  _buildTextField(
-      context: context,
+    return PasswordTextField(
+      controller: _passwordController,
       label: 'Senha',
       hint: 'Digite sua senha',
-      icon: Icons.lock_outline,
-      controller: _passwordController,
-      isPassword: true,
-      );
-  }
-
-  Widget _buildTextField({
-    required BuildContext context,
-    required String label,
-    required String hint,
-    required IconData icon,
-    required TextEditingController controller,
-    bool isPassword = false,
-  }) {
-    return TextField(
-      controller: controller,
-      enableInteractiveSelection: false,
-      keyboardType: TextInputType.phone,
-      enableSuggestions: false,
-      autocorrect: false,     
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-      ),
     );
   }
 
@@ -132,9 +101,8 @@ class _LoginPageState extends State<LoginPageWidget> {
     return SizedBox(
       width: double.infinity,
       height: 55,
+      
       child: ElevatedButton(
-        onPressed: () => _onSubmitButtonPressed(context),
-
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueAccent,
           foregroundColor: Colors.white,
@@ -142,10 +110,13 @@ class _LoginPageState extends State<LoginPageWidget> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
+
         child: Text(
           'ENTRAR',
           style: GoogleFonts.poppins(fontSize: 26, fontWeight: FontWeight.w600),
         ),
+
+        onPressed: () => _onSubmitButtonPressed(context),
       ),
     );
   }
@@ -224,11 +195,6 @@ class _LoginPageState extends State<LoginPageWidget> {
     );
 
     if (result != null && result.isNotEmpty) {
-      
-      dev.log('line 228');
-      for (var r in result) {
-        dev.log(r.toString());
-      }
       setState(() {
         // _nome = resultado;
       });
