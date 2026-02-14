@@ -1,7 +1,8 @@
+import 'package:app03/components/validators/required_validator.dart';
+import 'package:app03/components/validators/validation_rule_combiner.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class PasswordTextField extends StatefulWidget {
+class PasswordFormField extends StatefulWidget {
   
   final TextEditingController controller;
   final String label;
@@ -9,7 +10,7 @@ class PasswordTextField extends StatefulWidget {
   final IconData prefixIcon;
   final TextStyle textSytle;
   
-  const PasswordTextField({
+  const PasswordFormField({
     super.key, 
     required this.controller, 
     this.label = 'Senha',
@@ -19,18 +20,18 @@ class PasswordTextField extends StatefulWidget {
   });
 
   @override
-  State<PasswordTextField> createState() => _PasswordTextFieldState();
+  State<PasswordFormField> createState() => _PasswordFormFieldState();
 }
 
-class _PasswordTextFieldState extends State<PasswordTextField> {
+class _PasswordFormFieldState extends State<PasswordFormField> {
   
   bool _isObscured = true;
 
   @override
   Widget build(BuildContext context) {
   
-    return TextField(
-
+    return TextFormField(
+      //key: widget.key,
       controller: widget.controller,
       obscureText: _isObscured,
       enableInteractiveSelection: false,
@@ -39,6 +40,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       autocorrect: false,     
       style: _buildTextStyle(),
       decoration: _buildDecoration(),
+      validator: _buildValidator(),
     );
   }
 
@@ -83,7 +85,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         ),
       );
   }
-}
 
-  
+   String? Function(String? value) _buildValidator(){
+    
+    return ValidationRuleCombiner(validators: [
+      RequiredValidationRule(),
+    ]).validate;
+  }
+}
   

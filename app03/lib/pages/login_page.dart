@@ -1,7 +1,7 @@
 
 import 'dart:developer' as dev;
-import 'package:app03/components/email_textfield.dart';
-import 'package:app03/components/passoword_textfield.dart';
+import 'package:app03/components/email/email_textfield.dart';
+import 'package:app03/components/password/passoword_form_field.dart';
 import 'package:app03/util/dialogs/list_input_dialog.dart';
 import 'package:app03/util/dialogs/input_dialog.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,9 @@ class LoginPageWidget extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPageWidget> {
   
+  final _formKey = GlobalKey<FormState>();
+  final _passwordFieldKey = GlobalKey<FormFieldState>();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   
@@ -37,31 +40,35 @@ class _LoginPageState extends State<LoginPageWidget> {
   Widget _buildBody(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Spacer(flex:4),
-              _buildBodyHeader(context),
-              Spacer(flex:4),
-              _buildEmailTextField(),
-              Spacer(flex:4),
-              _buildPasswordTextField(),
-              Spacer(flex: 4),
-              _buildLoginButton(context),
-              Spacer(flex:5),
-              _buildFooter(context),
-              Spacer(flex:2),
-            ],
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Spacer(flex:4),
+                _buildBodyHeader(context),
+                Spacer(flex:4),
+                _buildEmailTextField(),
+                Spacer(flex:4),
+                _buildPasswordFormField(),
+                Spacer(flex: 4),
+                _buildLoginButton(context),
+                Spacer(flex:5),
+                _buildFooter(context),
+                Spacer(flex:2),
+              ],
+            ),
           ),
-        ),
+        )
       )
     );
   }
 
   Widget _buildBodyHeader(BuildContext context) {
+    
     return Column(
       children: [
         const Icon(Icons.account_circle, size: 80, color: Colors.blueAccent),
@@ -87,9 +94,10 @@ class _LoginPageState extends State<LoginPageWidget> {
     );
   }
 
-  Widget _buildPasswordTextField() {
+  Widget _buildPasswordFormField() {
 
-    return PasswordTextField(
+    return PasswordFormField(
+    //  key: _passwordFieldKey,
       controller: _passwordController,
       label: 'Senha',
       hint: 'Digite sua senha',
@@ -152,13 +160,14 @@ class _LoginPageState extends State<LoginPageWidget> {
   }
 
   void _onSubmitButtonPressed(BuildContext context){
-      dev.log(
-      'Tentativa de login realizada', 
-      name: 'auth.login',
-      error: 'Email digitado: ${_emailController.text}',
-    );
+      
+    if (_formKey.currentState!.validate()) {
+      _mostrarAlerta(context, "Sucesso!", 'Login efetuado com sucesso. (${_emailController.text})');
+    }
+    else{
+      _mostrarAlerta(context, "Error", 'Message:${_passwordFieldKey.currentState?.errorText}');
+    }
 
-    _mostrarAlerta(context);
   }  
 
 
@@ -201,16 +210,16 @@ class _LoginPageState extends State<LoginPageWidget> {
     }
   }
 
-  void _mostrarAlerta(BuildContext context) {
+  void _mostrarAlerta(BuildContext context, String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Sucesso!',
+            title,
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           ),
-          content: Text('Login efetuado com sucesso. (${_emailController.text})'),
+          content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context), // Fecha o alerta
