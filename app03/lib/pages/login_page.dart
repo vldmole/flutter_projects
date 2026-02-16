@@ -2,6 +2,7 @@
 import 'dart:developer' as dev;
 import 'package:app03/components/email/email_textfield.dart';
 import 'package:app03/components/password/passoword_form_field.dart';
+import 'package:app03/pages/home_page.dart';
 import 'package:app03/util/dialogs/list_input_dialog.dart';
 import 'package:app03/util/dialogs/input_dialog.dart';
 import 'package:flutter/material.dart';
@@ -162,7 +163,11 @@ class _LoginPageState extends State<LoginPageWidget> {
   void _onSubmitButtonPressed(BuildContext context){
       
     if (_formKey.currentState!.validate()) {
-      _mostrarAlerta(context, "Sucesso!", 'Login efetuado com sucesso. (${_emailController.text})');
+      //_mostrarAlerta(context, "Sucesso!", 'Login efetuado com sucesso. (${_emailController.text})');
+
+      Navigator.pushReplacement(
+        context, 
+        MaterialPageRoute( builder: (context) => HomePage()) );
     }
     else{
       _mostrarAlerta(context, "Error", 'Message:${_passwordFieldKey.currentState?.errorText}');
