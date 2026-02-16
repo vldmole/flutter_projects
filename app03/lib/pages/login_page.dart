@@ -167,7 +167,8 @@ class _LoginPageState extends State<LoginPageWidget> {
 
       Navigator.pushReplacement(
         context, 
-        MaterialPageRoute( builder: (context) => HomePage()) );
+        MaterialPageRoute( builder: (context) => HomePage()) 
+      );
     }
     else{
       _mostrarAlerta(context, "Error", 'Message:${_passwordFieldKey.currentState?.errorText}');
