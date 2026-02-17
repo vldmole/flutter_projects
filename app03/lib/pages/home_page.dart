@@ -1,7 +1,12 @@
+
+
 import 'package:app03/components/validators/app_bar/menu_builder.dart' as menu_builder;
 import 'package:app03/components/validators/app_bar/menu_builder.dart' show TMenuItem;
+import 'package:app03/models/person_model.dart';
 import 'package:app03/pages/user/person_data_form.dart';
 import 'package:flutter/material.dart';
+
+import 'dart:developer' as dev;
 
 class HomePage extends StatefulWidget {
 
@@ -25,8 +30,11 @@ class _HomePageState extends State<HomePage> {
   }
   
   List<TMenuItem> _menuItens(){
+    
     return [
-        ( text: "Dados Pessoais", action: ()=> refreshBody(PersonFormWidget())),
+        ( text: "Dados Pessoais", action: ()=> refreshBody( 
+          PersonForm(onSave: (Person person) { dev.log(person.toString()); },)
+        )),
       ];
   }
 
