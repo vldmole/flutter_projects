@@ -25,33 +25,38 @@ class _PersonFormState extends State<PersonForm> {
   @override
   Widget build(BuildContext context) {
 
-    return SingleChildScrollView( // Garante que o teclado não cubra os campos
-      padding: const EdgeInsets.all(16),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            responsiveLayout.buildRowColumn(
-              context,
-              _buildFirstNameField(),
-              _buildLastNameField(),
-            ),
-            const SizedBox(height: 10),
-            responsiveLayout.buildRowColumn(
-              context, 
-              _buildBirthDateField(),
-              _buildSexField()
-            ),
-            const SizedBox(height: 30),
-            _buildButtonSave(),
-          ],
+    return Scaffold(
+      
+      body: SingleChildScrollView( // Garante que o teclado não cubra os campos
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              responsiveLayout.buildRowColumn(
+                context,
+                _buildFirstNameField(),
+                _buildLastNameField(),
+              ),
+              const SizedBox(height: 10),
+              responsiveLayout.buildRowColumn(
+                context, 
+                _buildBirthDateField(),
+                _buildSexField()
+              ),
+              const SizedBox(height: 30),
+              _buildButtonSave(),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 
   Widget _buildFirstNameField(){
     return TextFormField(
+      enabled: true,
+      readOnly: false,
       decoration: const InputDecoration(labelText: 'Nome'),
       validator: (v) => v!.isEmpty ? 'Obrigatório' : null,
       onSaved: (v) => firstName = v!,
@@ -60,6 +65,8 @@ class _PersonFormState extends State<PersonForm> {
 
   Widget _buildLastNameField(){
     return TextFormField(
+      enabled: true,
+      readOnly: false,
       decoration: const InputDecoration(labelText: 'Sobrenome'),
       validator: (v) => v!.isEmpty ? 'Obrigatório' : null,
       onSaved: (v) => lastName = v!,
