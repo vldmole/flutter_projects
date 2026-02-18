@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+class _ResponsiveLayout {
+
 Widget buildRowColumn(BuildContext context, Widget field1, Widget field2) {
 
     return LayoutBuilder(
@@ -27,3 +29,6 @@ Widget buildRowColumn(BuildContext context, Widget field1, Widget field2) {
       },
     );
   }
+}
+
+final responsiveLayout = _ResponsiveLayout();

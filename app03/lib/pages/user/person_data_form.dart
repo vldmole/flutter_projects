@@ -1,12 +1,19 @@
+import 'package:app03/components/password/professional_level/professional_level.dart';
 import 'package:app03/models/person_model.dart';
+import 'package:app03/repositories/professional_level_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:app03/components/util/responsive_layout.dart' as responsiveLayout;
+
+import 'package:app03/components/util/responsive_layout.dart' show responsiveLayout;
 
 class PersonForm extends StatefulWidget {
+  
   final Function(Person) onSave;
 
-  const PersonForm({super.key, required this.onSave});
+  const PersonForm({
+    super.key,  
+    required this.onSave,
+  });
 
   @override
   State<PersonForm> createState() => _PersonFormState();
@@ -20,6 +27,7 @@ class _PersonFormState extends State<PersonForm> {
   String lastName ='';
   DateTime birthDate = DateTime.now();
   String sex = 'Masculino';
+  String professionalLevel = "";
   
 
   @override
@@ -44,10 +52,14 @@ class _PersonFormState extends State<PersonForm> {
                 _buildBirthDateField(),
                 _buildSexField()
               ),
+              ProfessionalLevel( 
+                repository: ProfessionalLevelRepository(),
+                onChanged: (value) => professionalLevel = value
+              ),
               const SizedBox(height: 30),
               _buildButtonSave(),
             ],
-          ),
+          )
         ),
       )
     );
@@ -127,7 +139,12 @@ class _PersonFormState extends State<PersonForm> {
       onPressed: () {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-          widget.onSave(Person(firstName: firstName, lastName: lastName, birthDate: birthDate, sex: sex));
+          widget.onSave(Person(
+            firstName: firstName, 
+            lastName: lastName, 
+            birthDate: birthDate, 
+            sex: sex,
+            professionalLevel: professionalLevel));
         }
       },
       child: const Text('SALVAR DADOS'),
