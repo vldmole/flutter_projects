@@ -1,7 +1,7 @@
 
 
-import 'package:app03/components/validators/app_bar/menu_builder.dart' as menu_builder;
-import 'package:app03/components/validators/app_bar/menu_builder.dart' show TMenuItem;
+import 'package:app03/components/drawer/drawer_builder.dart';
+import 'package:app03/components/drawer/main_drawer.dart';
 import 'package:app03/models/person_model.dart';
 import 'package:app03/pages/user/person_data_form.dart';
 import 'package:flutter/material.dart';
@@ -18,29 +18,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
  
-  Widget _body = SizedBox(width: double.infinity, height: double.infinity);
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(title: Text("Home Page")),
-      drawer: menu_builder.builDrawerMainMenu(_menuItens()),
-      body: _body,
+      drawer: MainMenuDrawer(pageController: _pageController),
+      body: _buildBody(),
     );
   }
-  
-  List<TMenuItem> _menuItens(){
+
+  Widget _buildBody(){
     
-    return [
-        ( text: "Dados Pessoais", action: ()=> refreshBody( 
-          PersonForm(onSave: (Person person) { dev.log(person.toString()); },)
-        )),
-      ];
+    return PageView(
+      controller: _pageController,
+      physics: const NeverScrollableScrollPhysics(), 
+      onPageChanged: (index) => dev.log("page $index"),
+      children: [
+        PersonForm(onSave: (p) => dev.log(p.toString())),
+      ],
+    );
   }
 
-  void refreshBody(Widget body){
-    
-    setState(() => _body = body);
-    Navigator.pop(context); 
+  @override
+  void dispose() {
+    _pageController.dispose(); // Sempre descarte controllers para evitar vazamento de memória
+    super.dispose();
   }
 }
